@@ -1,1 +1,356 @@
-You must be on a branch to make or propose changes to this file
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - National Uhuru-Torch Applications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E3A8A; /* Deep blue */
+            --secondary: #F97316; /* Vibrant orange */
+            --background: #F9FAFB; /* Light gray */
+            --tz-green: #00A859;
+            --tz-yellow: #FFD700;
+            --tz-black: #1A252F;
+            --tz-blue: #003087;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                var(--tz-green) 25%,
+                var(--tz-yellow) 25%,
+                var(--tz-yellow) 50%,
+                var(--tz-black) 50%,
+                var(--tz-black) 75%,
+                var(--tz-blue) 75%
+            );
+            color: #ffffff;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-container {
+            padding: 40px;
+            background: var(--background);
+        }
+
+        .application-list {
+            margin-bottom: 20px;
+        }
+
+        .application-item {
+            padding: 15px;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .form-group p {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .auth-message {
+            text-align: center;
+            padding: 20px;
+            background: #ff4d4d;
+            color: #ffffff;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            .header, .footer, button, .auth-message {
+                display: none;
+            }
+
+            .admin-container {
+                padding: 20px;
+                background: none;
+            }
+
+            .application-item {
+                border: none;
+                page-break-inside: avoid;
+            }
+
+            .form-group label {
+                font-weight: 600;
+            }
+
+            .form-group p {
+                font-size: 1rem;
+                color: #000;
+            }
+
+            .serial-number {
+                display: block !important;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                text-align: right;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 15px;
+                border-width: 2px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+
+            .admin-container {
+                padding: 25px;
+            }
+
+            button {
+                font-size: 0.95rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" role="presentation">
+            <div class="header-content">
+                <h1>National Uhuru-Torch Applications</h1>
+            </div>
+        </div>
+        <div class="admin-container">
+            <div class="auth-message" id="authMessage">
+                Ingia kama Katibu wa Ofisi kwa Ruhusa ya Upatikanaji
+            </div>
+            <div class="application-list" id="applicationList">
+                <!-- Applications will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated authentication (in production, use proper server-side auth)
+        const isAuthenticated = true; // Set to true for demo; in production, check credentials
+
+        function checkAuthentication() {
+            const authMessage = document.getElementById('authMessage');
+            const applicationList = document.getElementById('applicationList');
+            if (isAuthenticated) {
+                authMessage.classList.add('hidden');
+                applicationList.classList.remove('hidden');
+                populateApplications();
+            } else {
+                authMessage.classList.add('hidden');
+                applicationList.classList.add('hidden');
+            }
+        }
+
+        function populateApplications() {
+            const applicationList = document.getElementById('applicationList');
+            applicationList.innerHTML = '';
+            const applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
+            if (applications.length === 0) {
+                applicationList.innerHTML = '<p>Hakuna Maombi Yaliyowasilishwa</p>';
+                return;
+            }
+            applications.forEach(app => {
+                const appDiv = document.createElement('div');
+                appDiv.className = 'application-item';
+                appDiv.innerHTML = `
+                    <div class="form-group serial-number hidden" id="serialNumberGroup${app.serialNumber}">
+                        <label for="serialNumber${app.serialNumber}">Namba ya Usajili</label>
+                        <p id="serialNumber${app.serialNumber}">${app.serialNumber}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Jina la Mwombaji</label>
+                        <p>${app.applicantName}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tarehe ya Kuzaliwa</label>
+                        <p>${app.dob}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Umri</label>
+                        <p>${app.age}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Anwani ya Makazi</label>
+                        <p>${app.anwaniMakazi}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mkoa Unaoishi</label>
+                        <p>${app.mkoaUnaoishi}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mkoa Anapo Ombea</label>
+                        <p>${app.mkoaOmbea}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Wilaya</label>
+                        <p>${app.wilaya}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Anwani</label>
+                        <p>${app.anwani}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Maoni ya Mwenyekiti Kamati ya Usalama Mkoa</label>
+                        <p>${app.maoniMkoa}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Maoni ya Mwenyekiti Kamati ya Usalama Wilaya</label>
+                        <p>${app.maoniWilaya}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Kiwango cha Elimu</label>
+                        <p>${app.kiwangoElimu}${app.otherEducation ? `: ${app.otherEducation}` : ''}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Hali ya Ajira</label>
+                        <p>${app.employmentStatus === 'employed' ? 'Nimeajiriwa' : 'Nimejiajiri'}</p>
+                    </div>
+                    ${app.employmentStatus === 'employed' ? `
+                    <div class="form-group">
+                        <label>Mwajiri</label>
+                        <p>${app.mwajiri || 'Hakuna'}</p>
+                    </div>
+                    ` : `
+                    <div class="form-group">
+                        <label>Shughuli Zako</label>
+                        <p>${app.shughuli || 'Hakuna'}</p>
+                    </div>
+                    `}
+                    <div class="form-group">
+                        <label>Namba ya Simu</label>
+                        <p>${app.phone}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Barua Pepe</label>
+                        <p>${app.email || 'Hakuna'}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Namba ya Cheti cha Kuzaliwa</label>
+                        <p>${app.birthCert}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Namba ya NIDA</label>
+                        <p>${app.nida}</p>
+                    </div>
+                    <button onclick="generatePrintableView(${app.serialNumber})">Chapisha</button>
+                `;
+                applicationList.appendChild(appDiv);
+            });
+        }
+
+        function generatePrintableView(serialNumber) {
+            const serialNumberGroup = document.getElementById(`serialNumberGroup${serialNumber}`);
+            serialNumberGroup.classList.remove('hidden');
+            window.print();
+            serialNumberGroup.classList.add('hidden');
+        }
+
+        // Initialize admin interface
+        checkAuthentication();
+    </script>
+</body>
+</html>
