@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Uhuru-Torch Application - www.kazi.go.tz</title>
+    <title>Admin - National Uhuru-Torch Applications</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -83,169 +83,107 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .marquee-subtitle {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 15s linear infinite;
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: #e6f0fa;
-            opacity: 0.95;
-        }
-
-        .marquee-subtitle:hover {
-            animation-play-state: paused;
-        }
-
-        .form-container {
+        .admin-container {
             padding: 40px;
             background: var(--background);
         }
 
-        .form-step {
-            display: none;
-        }
-
-        .form-step.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #d1d5db;
-            border-radius: 10px;
-            font-size: 1rem;
-            color: var(--primary);
-            background: #ffffff;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
-            background: #f0f4ff;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-group.hidden {
-            display: none;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 20px;
+        .application-list {
             margin-bottom: 20px;
         }
 
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1rem;
-            color: var(--primary);
+        .application-item {
+            padding: 15px;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
         }
 
         button {
-            display: block;
-            width: 100%;
-            padding: 16px;
+            padding: 10px 20px;
             background: var(--secondary);
             color: #ffffff;
             border: none;
-            border-radius: 10px;
-            font-size: 1.2rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
             background: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4);
+            transform: translateY(-2px);
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.2);
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: space-between;
-            margin-top: 20px;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .nav-buttons button {
-            width: 48%;
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
         }
 
-        .success-message,
-        .closed-message {
+        .form-group p {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .hidden {
             display: none;
+        }
+
+        .auth-message {
             text-align: center;
             padding: 20px;
-            background: var(--primary);
+            background: #ff4d4d;
             color: #ffffff;
             border-radius: 10px;
             font-size: 1.2rem;
             font-weight: 600;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        .success-message.active,
-        .closed-message.active {
-            display: block;
-        }
+        @media print {
+            .header, .footer, button, .auth-message {
+                display: none;
+            }
 
-        .footer {
-            background: var(--primary);
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            border-top: 3px solid var(--secondary);
-            overflow: hidden;
-        }
+            .admin-container {
+                padding: 20px;
+                background: none;
+            }
 
-        .marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 12s linear infinite;
-            font-weight: 500;
-        }
+            .application-item {
+                border: none;
+                page-break-inside: avoid;
+            }
 
-        .marquee:hover {
-            animation-play-state: paused;
-        }
+            .form-group label {
+                font-weight: 600;
+            }
 
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            .form-group p {
+                font-size: 1rem;
+                color: #000;
+            }
+
+            .serial-number {
+                display: block !important;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                text-align: right;
+            }
         }
 
         @media (max-width: 600px) {
@@ -262,38 +200,13 @@
                 font-size: 2rem;
             }
 
-            .marquee-subtitle {
-                font-size: 0.95rem;
-            }
-
-            .form-container {
+            .admin-container {
                 padding: 25px;
             }
 
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                padding: 12px;
-                font-size: 0.95rem;
-            }
-
             button {
-                font-size: 1.1rem;
-                padding: 14px;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-buttons button {
-                width: 100%;
-            }
-
-            .footer {
-                font-size: 1.1rem;
-                padding: 12px;
+                font-size: 0.95rem;
+                padding: 10px;
             }
         }
     </style>
@@ -302,315 +215,142 @@
     <div class="container">
         <div class="header" role="presentation">
             <div class="header-content">
-                <h1>National Uhuru-Torch Application</h1>
-                <p class="marquee-subtitle" role="presentation" aria-hidden="true">Jiunge na Harakati za Kueneza Maendeleo na Umoja</p>
+                <h1>National Uhuru-Torch Applications</h1>
             </div>
         </div>
-        <div class="form-container">
-            <div class="closed-message" id="closedMessage">
-                Dirisha la Maombi Limefungwa.
+        <div class="admin-container">
+            <div class="auth-message" id="authMessage">
+                Ingia kama Katibu wa Ofisi kwa Ruhusa ya Upatikanaji
             </div>
-            <form id="registrationForm" action="/mwenge-registration" method="post">
-                <!-- Step 1: Applicant Details -->
-                <div class="form-step" id="step1">
-                    <div class="form-group">
-                        <label for="applicantName" aria-label="Jina la Mwombaji">Jina la Mwombaji</label>
-                        <input type="text" id="applicantName" name="applicantName" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="dob" aria-label="Tarehe ya Kuzaliwa">Tarehe ya Kuzaliwa</label>
-                        <input type="date" id="dob" name="dob" required aria-required="true" onchange="calculateAge()">
-                    </div>
-                    <div class="form-group">
-                        <label for="age" aria-label="Umri">Umri</label>
-                        <input type="number" id="age" name="age" readonly aria-readonly="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="anwaniMakazi" aria-label="Anwani ya Makazi">Anwani ya Makazi</label>
-                        <textarea id="anwaniMakazi" name="anwaniMakazi" required aria-required="true"></textarea>
-                    </div>
-                    <div class="nav-buttons">
-                        <button type="button" onclick="nextStep(1)">Endelea</button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Location Details -->
-                <div class="form-step" id="step2">
-                    <div class="form-group">
-                        <label for="mkoaUnaoishi" aria-label="Mkoa Unaoishi (Makazi ya Kudumu)">Mkoa Unaoishi (Makazi ya Kudumu)</label>
-                        <input type="text" id="mkoaUnaoishi" name="mkoaUnaoishi" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="mkoaOmbea" aria-label="Mkoa Anapo Ombea">Mkoa Anapo Ombea</label>
-                        <input type="text" id="mkoaOmbea" name="mkoaOmbea" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="wilaya" aria-label="Wilaya">Wilaya</label>
-                        <input type="text" id="wilaya" name="wilaya" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="anwani" aria-label="Anwani">Anwani</label>
-                        <textarea id="anwani" name="anwani" required aria-required="true"></textarea>
-                    </div>
-                    <div class="nav-buttons">
-                        <button type="button" onclick="prevStep(2)">Rudi</button>
-                        <button type="button" onclick="nextStep(2)">Endelea</button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Endorsements -->
-                <div class="form-step" id="step3">
-                    <div class="form-group">
-                        <label for="maoniMkoa" aria-label="Maoni ya Mwenyekiti Kamati ya Usalama Mkoa">Maoni ya Mwenyekiti Kamati ya Usalama Mkoa</label>
-                        <textarea id="maoniMkoa" name="maoniMkoa" required aria-required="true"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="maoniWilaya" aria-label="Maoni ya Mwenyekiti Kamati ya Usalama Wilaya">Maoni ya Mwenyekiti Kamati ya Usalama Wilaya</label>
-                        <textarea id="maoniWilaya" name="maoniWilaya" required aria-required="true"></textarea>
-                    </div>
-                    <div class="nav-buttons">
-                        <button type="button" onclick="prevStep(3)">Rudi</button>
-                        <button type="button" onclick="nextStep(3)">Endelea</button>
-                    </div>
-                </div>
-
-                <!-- Step 4: Education and Occupation -->
-                <div class="form-step" id="step4">
-                    <div class="form-group">
-                        <label for="kiwangoElimu" aria-label="Kiwango cha Elimu">Kiwango cha Elimu</label>
-                        <select id="kiwangoElimu" name="kiwangoElimu" required aria-required="true" onchange="toggleOtherEducation()">
-                            <option value="">Chagua</option>
-                            <option value="primary">Elimu ya Msingi</option>
-                            <option value="secondary">Elimu ya Sekondari</option>
-                            <option value="certificate">Cheti</option>
-                            <option value="diploma">Diploma</option>
-                            <option value="degree">Shahada</option>
-                            <option value="other">Nyingine</option>
-                        </select>
-                    </div>
-                    <div class="form-group hidden" id="otherEducationGroup">
-                        <label for="otherEducation" aria-label="Nyingine Ipi?">Nyingine Ipi?</label>
-                        <textarea id="otherEducation" name="otherEducation" aria-required="false"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Hali ya Ajira</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="employmentStatus" value="employed" required aria-required="true" onclick="toggleEmploymentDetails()"> Nimeajiriwa</label>
-                            <label><input type="radio" name="employmentStatus" value="selfEmployed" required aria-required="true" onclick="toggleEmploymentDetails()"> Nimejiajiri</label>
-                        </div>
-                    </div>
-                    <div class="form-group hidden" id="employerGroup">
-                        <label for="mwajiri" aria-label="Mwajiri">Mwajiri</label>
-                        <input type="text" id="mwajiri" name="mwajiri" aria-required="false">
-                    </div>
-                    <div class="form-group hidden" id="selfEmploymentGroup">
-                        <label for="shughuli" aria-label="Shughuli Zako">Shughuli Zako</label>
-                        <textarea id="shughuli" name="shughuli" aria-required="false"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" aria-label="Namba ya Simu">Namba ya Simu</label>
-                        <input type="tel" id="phone" name="phone" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" aria-label="Barua Pepe">Barua Pepe (Si Lazima)</label>
-                        <input type="email" id="email" name="email" aria-required="false">
-                    </div>
-                    <div class="nav-buttons">
-                        <button type="button" onclick="prevStep(4)">Rudi</button>
-                        <button type="button" onclick="nextStep(4)">Endelea</button>
-                    </div>
-                </div>
-
-                <!-- Step 5: Identification -->
-                <div class="form-step" id="step5">
-                    <div class="form-group">
-                        <label for="birthCert" aria-label="Namba ya Cheti cha Kuzaliwa">Namba ya Cheti cha Kuzaliwa</label>
-                        <input type="text" id="birthCert" name="birthCert" required aria-required="true">
-                    </div>
-                    <div class="form-group">
-                        <label for="nida" aria-label="Namba ya NIDA">Namba ya NIDA</label>
-                        <input type="text" id="nida" name="nida" required aria-required="true">
-                    </div>
-                    <div class="nav-buttons">
-                        <button type="button" onclick="prevStep(5)">Rudi</button>
-                        <button type="submit">Tuma Usajili</button>
-                    </div>
-                </div>
-            </form>
-            <div class="success-message" id="successMessage">
-                Maombi yako yamepokelewa, tunayofuraha kutaka kufanya kazi nasi
+            <div class="application-list" id="applicationList">
+                <!-- Applications will be populated here -->
             </div>
-        </div>
-        <div class="footer" role="presentation" aria-hidden="true">
-            <span class="marquee">OKTOBA TUNATIKI</span>
         </div>
     </div>
 
     <script>
-        // Simulated serial number counter (in production, this should be server-side)
-        let serialNumberCounter = 1;
+        // Simulated authentication (in production, use proper server-side auth)
+        const isAuthenticated = true; // Set to true for demo; in production, check credentials
 
-        // Check application window
-        function isApplicationWindowOpen() {
-            const now = new Date();
-            const start = new Date(2025, 6, 26); // July 26, 2025
-            const end = new Date(2025, 11, 31, 23, 59, 59); // 31 Dec 2025
-            return now >= start && now <= end;
-        }
-
-        // Initialize form visibility
-        function initializeForm() {
-            const form = document.getElementById('registrationForm');
-            const closedMessage = document.getElementById('closedMessage');
-            const successMessage = document.getElementById('successMessage');
-            
-            if (isApplicationWindowOpen()) {
-                form.style.display = 'block';
-                closedMessage.classList.remove('active');
-                successMessage.classList.remove('active');
-                document.getElementById('step1').classList.add('active');
+        function checkAuthentication() {
+            const authMessage = document.getElementById('authMessage');
+            const applicationList = document.getElementById('applicationList');
+            if (isAuthenticated) {
+                authMessage.classList.add('hidden');
+                applicationList.classList.remove('hidden');
+                populateApplications();
             } else {
-                form.style.display = 'none';
-                closedMessage.classList.add('active');
-                successMessage.classList.remove('active');
+                authMessage.classList.add('hidden');
+                applicationList.classList.add('hidden');
             }
         }
 
-        let currentStep = 1;
-
-        function calculateAge() {
-            const dobInput = document.getElementById('dob').value;
-            const ageInput = document.getElementById('age');
-            if (dobInput) {
-                const dob = new Date(dobInput);
-                const today = new Date();
-                let age = today.getFullYear() - dob.getFullYear();
-                const monthDiff = today.getMonth() - dob.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                    age--;
-                }
-                ageInput.value = age;
-            } else {
-                ageInput.value = '';
-            }
-        }
-
-        function toggleOtherEducation() {
-            const educationSelect = document.getElementById('kiwangoElimu');
-            const otherEducationGroup = document.getElementById('otherEducationGroup');
-            const otherEducationInput = document.getElementById('otherEducation');
-            
-            if (educationSelect.value === 'other') {
-                otherEducationGroup.classList.remove('hidden');
-                otherEducationInput.setAttribute('required', 'true');
-                otherEducationInput.setAttribute('aria-required', 'true');
-            } else {
-                otherEducationGroup.classList.add('hidden');
-                otherEducationInput.removeAttribute('required');
-                otherEducationInput.setAttribute('aria-required', 'false');
-                otherEducationInput.value = '';
-            }
-        }
-
-        function toggleEmploymentDetails() {
-            const employerGroup = document.getElementById('employerGroup');
-            const selfEmploymentGroup = document.getElementById('selfEmploymentGroup');
-            const employedRadio = document.querySelector('input[name="employmentStatus"][value="employed"]');
-            const mwajiriInput = document.getElementById('mwajiri');
-            const shughuliInput = document.getElementById('shughuli');
-
-            if (employedRadio.checked) {
-                employerGroup.classList.remove('hidden');
-                selfEmploymentGroup.classList.add('hidden');
-                mwajiriInput.setAttribute('required', 'true');
-                mwajiriInput.setAttribute('aria-required', 'true');
-                shughuliInput.removeAttribute('required');
-                shughuliInput.setAttribute('aria-required', 'false');
-                shughuliInput.value = '';
-            } else {
-                employerGroup.classList.add('hidden');
-                selfEmploymentGroup.classList.remove('hidden');
-                shughuliInput.setAttribute('required', 'true');
-                shughuliInput.setAttribute('aria-required', 'true');
-                mwajiriInput.removeAttribute('required');
-                mwajiriInput.setAttribute('aria-required', 'false');
-                mwajiriInput.value = '';
-            }
-        }
-
-        function validateStep(step) {
-            const stepElement = document.getElementById(`step${step}`);
-            const inputs = stepElement.querySelectorAll('input[required], textarea[required], select[required]');
-            let valid = true;
-
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    valid = false;
-                    input.style.borderColor = '#ff4d4d';
-                } else {
-                    input.style.borderColor = '#d1d5db';
-                }
-            });
-
-            return valid;
-        }
-
-        function nextStep(step) {
-            if (validateStep(step)) {
-                document.getElementById(`step${step}`).classList.remove('active');
-                currentStep = step + 1;
-                document.getElementById(`step${currentStep}`).classList.add('active');
-            }
-        }
-
-        function prevStep(step) {
-            document.getElementById(`step${step}`).classList.remove('active');
-            currentStep = step - 1;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-        }
-
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            if (!isApplicationWindowOpen()) {
-                initializeForm();
+        function populateApplications() {
+            const applicationList = document.getElementById('applicationList');
+            applicationList.innerHTML = '';
+            const applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
+            if (applications.length === 0) {
+                applicationList.innerHTML = '<p>Hakuna Maombi Yaliyowasilishwa</p>';
                 return;
             }
-            if (validateStep(currentStep)) {
-                const formData = {
-                    serialNumber: serialNumberCounter++,
-                    applicantName: document.getElementById('applicantName').value,
-                    dob: document.getElementById('dob').value,
-                    age: document.getElementById('age').value,
-                    anwaniMakazi: document.getElementById('anwaniMakazi').value,
-                    mkoaUnaoishi: document.getElementById('mkoaUnaoishi').value,
-                    mkoaOmbea: document.getElementById('mkoaOmbea').value,
-                    wilaya: document.getElementById('wilaya').value,
-                    anwani: document.getElementById('anwani').value,
-                    maoniMkoa: document.getElementById('maoniMkoa').value,
-                    maoniWilaya: document.getElementById('maoniWilaya').value,
-                    kiwangoElimu: document.getElementById('kiwangoElimu').value,
-                    otherEducation: document.getElementById('otherEducation').value,
-                    employmentStatus: document.querySelector('input[name="employmentStatus"]:checked').value,
-                    mwajiri: document.getElementById('mwajiri').value,
-                    shughuli: document.getElementById('shughuli').value,
-                    phone: document.getElementById('phone').value,
-                    email: document.getElementById('email').value,
-                    birthCert: document.getElementById('birthCert').value,
-                    nida: document.getElementById('nida').value
-                };
+            applications.forEach(app => {
+                const appDiv = document.createElement('div');
+                appDiv.className = 'application-item';
+                appDiv.innerHTML = `
+                    <div class="form-group serial-number hidden" id="serialNumberGroup${app.serialNumber}">
+                        <label for="serialNumber${app.serialNumber}">Namba ya Usajili</label>
+                        <p id="serialNumber${app.serialNumber}">${app.serialNumber}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Jina la Mwombaji</label>
+                        <p>${app.applicantName}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tarehe ya Kuzaliwa</label>
+                        <p>${app.dob}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Umri</label>
+                        <p>${app.age}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Anwani ya Makazi</label>
+                        <p>${app.anwaniMakazi}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mkoa Unaoishi</label>
+                        <p>${app.mkoaUnaoishi}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mkoa Anapo Ombea</label>
+                        <p>${app.mkoaOmbea}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Wilaya</label>
+                        <p>${app.wilaya}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Anwani</label>
+                        <p>${app.anwani}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Maoni ya Mwenyekiti Kamati ya Usalama Mkoa</label>
+                        <p>${app.maoniMkoa}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Maoni ya Mwenyekiti Kamati ya Usalama Wilaya</label>
+                        <p>${app.maoniWilaya}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Kiwango cha Elimu</label>
+                        <p>${app.kiwangoElimu}${app.otherEducation ? `: ${app.otherEducation}` : ''}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Hali ya Ajira</label>
+                        <p>${app.employmentStatus === 'employed' ? 'Nimeajiriwa' : 'Nimejiajiri'}</p>
+                    </div>
+                    ${app.employmentStatus === 'employed' ? `
+                    <div class="form-group">
+                        <label>Mwajiri</label>
+                        <p>${app.mwajiri || 'Hakuna'}</p>
+                    </div>
+                    ` : `
+                    <div class="form-group">
+                        <label>Shughuli Zako</label>
+                        <p>${app.shughuli || 'Hakuna'}</p>
+                    </div>
+                    `}
+                    <div class="form-group">
+                        <label>Namba ya Simu</label>
+                        <p>${app.phone}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Barua Pepe</label>
+                        <p>${app.email || 'Hakuna'}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Namba ya Cheti cha Kuzaliwa</label>
+                        <p>${app.birthCert}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Namba ya NIDA</label>
+                        <p>${app.nida}</p>
+                    </div>
+                    <button onclick="generatePrintableView(${app.serialNumber})">Chapisha</button>
+                `;
+                applicationList.appendChild(appDiv);
+            });
+        }
 
-                // Save to localStorage (simulating server storage)
-                let applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
-                applications.push(formData);
-                localStorage.setItem('uhuruTorchApplications', JSON.stringify(applications));
+        function generatePrintableView(serialNumber) {
+            const serialNumberGroup = document.getElementById(`serialNumberGroup${serialNumber}`);
+            serialNumberGroup.classList.remove('hidden');
+            window.print();
+            serialNumberGroup.classList.add('hidden');
+        }
 
-                document.getElementById(`step${currentStep}`).classList.remove('active');
-                document.getElementById('successMessage').classList.add('active');
-            }
-        });
-
-        // Initialize form on load
-        initializeForm();
+        // Initialize admin interface
+        checkAuthentication();
     </script>
 </body>
 </html>
