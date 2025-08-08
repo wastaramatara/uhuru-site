@@ -100,6 +100,8 @@
         .form-container {
             padding: 40px;
             background: var(--background);
+            position: relative;
+            min-height: 400px; /* Ensure space for success message */
         }
 
         .form-step {
@@ -219,7 +221,8 @@
         }
 
         .success-message,
-        .closed-message {
+        .closed-message,
+        .error-message {
             display: none;
             text-align: center;
             padding: 20px;
@@ -229,11 +232,21 @@
             font-size: 1.2rem;
             font-weight: 600;
             margin-top: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: fadeIn 0.5s ease-in;
         }
 
         .success-message.active,
-        .closed-message.active {
+        .closed-message.active,
+        .error-message.active {
             display: block;
+        }
+
+        .error-message {
+            background: #ff4d4d;
         }
 
         .footer {
@@ -261,6 +274,11 @@
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
         @media (max-width: 600px) {
@@ -309,6 +327,13 @@
             .footer {
                 font-size: 1.1rem;
                 padding: 12px;
+            }
+
+            .success-message,
+            .closed-message,
+            .error-message {
+                width: 90%;
+                font-size: 1rem;
             }
         }
     </style>
@@ -491,6 +516,9 @@
             <div class="success-message" id="successMessage">
                 Maombi yako yamepokelewa, tunayofuraha kutaka kufanya kazi nasi
             </div>
+            <div class="error-message" id="errorMessage">
+                Tafadhali jaza sehemu zote zinazohitajika.
+            </div>
         </div>
         <div class="footer" role="presentation" aria-hidden="true">
             <span class="marquee">OKTOBA TUNATIKI</span>
@@ -511,16 +539,19 @@
             const form = document.getElementById('registrationForm');
             const closedMessage = document.getElementById('closedMessage');
             const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
             
             if (isApplicationWindowOpen()) {
                 form.style.display = 'block';
                 closedMessage.classList.remove('active');
                 successMessage.classList.remove('active');
+                errorMessage.classList.remove('active');
                 document.getElementById('step1').classList.add('active');
             } else {
                 form.style.display = 'none';
                 closedMessage.classList.add('active');
                 successMessage.classList.remove('active');
+                errorMessage.classList.remove('active');
             }
         }
 
@@ -625,6 +656,11 @@
                 document.getElementById(`step${step}`).classList.remove('active');
                 currentStep = step + 1;
                 document.getElementById(`step${currentStep}`).classList.add('active');
+            } else {
+                document.getElementById('errorMessage').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.remove('active');
+                }, 3000);
             }
         }
 
@@ -649,7 +685,6 @@
                     age: document.getElementById('age').value,
                     nationality: document.getElementById('nationality').value,
                     maritalStatus: document.getElementById('maritalStatus').value,
-                    anwaniMakazi: document.getElementById('anwaniMakazi').value,
                     mkoaUnaoishi: document.getElementById('mkoaUnaoishi').value,
                     mkoaOmbea: document.getElementById('mkoaOmbea').value,
                     wilaya: document.getElementById('wilaya').value,
@@ -675,9 +710,15 @@
                 applications.push(formData);
                 localStorage.setItem('uhuruTorchApplications', JSON.stringify(applications));
 
-                // Hide the form and show success message
+                // Hide the form, reset it, and show success message
                 document.getElementById('registrationForm').style.display = 'none';
+                document.getElementById('registrationForm').reset();
                 document.getElementById('successMessage').classList.add('active');
+            } else {
+                document.getElementById('errorMessage').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('errorMessage').classList.remove('active');
+                }, 3000);
             }
         });
 
