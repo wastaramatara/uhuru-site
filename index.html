@@ -675,7 +675,8 @@
                 applications.push(formData);
                 localStorage.setItem('uhuruTorchApplications', JSON.stringify(applications));
 
-                document.getElementById(`step${currentStep}`).classList.remove('active');
+                // Hide the form and show success message
+                document.getElementById('registrationForm').style.display = 'none';
                 document.getElementById('successMessage').classList.add('active');
             }
         });
