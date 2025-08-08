@@ -299,6 +299,10 @@
                         <p>${app.applicantName}</p>
                     </div>
                     <div class="form-group">
+                        <label>Jinsia</label>
+                        <p>${app.gender === 'male' ? 'Mume' : 'Mke'}</p>
+                    </div>
+                    <div class="form-group">
                         <label>Tarehe ya Kuzaliwa</label>
                         <p>${app.dob}</p>
                     </div>
@@ -370,6 +374,22 @@
                         <p>${app.training.length ? app.training.join(', ') + (app.otherTraining ? `: ${app.otherTraining}` : '') : 'Hakuna'}</p>
                     </div>
                     <div class="form-group">
+                        <label>Jina la Mrejeleaji 1</label>
+                        <p>${app.referee1Name}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mawasiliano ya Mrejeleaji 1</label>
+                        <p>${app.referee1Contact}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Jina la Mrejeleaji 2</label>
+                        <p>${app.referee2Name}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mawasiliano ya Mrejeleaji 2</label>
+                        <p>${app.referee2Contact}</p>
+                    </div>
+                    <div class="form-group">
                         <label>Namba ya Simu</label>
                         <p>${app.phone}</p>
                     </div>
@@ -388,6 +408,10 @@
                     <div class="form-group">
                         <label>Namba ya NIDA</label>
                         <p>${app.nida}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tamko</label>
+                        <p>${app.declaration ? 'Nakubali' : 'Hakukubali'}</p>
                     </div>
                     <button onclick="generatePrintableView(${app.serialNumber})">Chapisha</button>
                 `;
