@@ -101,7 +101,7 @@
             padding: 40px;
             background: var(--background);
             position: relative;
-            min-height: 400px; /* Ensure space for success message */
+            min-height: 400px;
         }
 
         .form-step {
@@ -358,6 +358,13 @@
                         <input type="text" id="applicantName" name="applicantName" required aria-required="true">
                     </div>
                     <div class="form-group">
+                        <label>Jinsia</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="gender" value="male" required aria-required="true"> Mume</label>
+                            <label><input type="radio" name="gender" value="female" required aria-required="true"> Mke</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="dob" aria-label="Tarehe ya Kuzaliwa">Tarehe ya Kuzaliwa</label>
                         <input type="date" id="dob" name="dob" required aria-required="true" onchange="calculateAge()">
                     </div>
@@ -485,8 +492,32 @@
                     </div>
                 </div>
 
-                <!-- Step 5: Contact and Identification -->
+                <!-- Step 5: Referees -->
                 <div class="form-step" id="step5">
+                    <div class="form-group">
+                        <label for="referee1Name" aria-label="Jina la Mrejeleaji 1">Jina la Mrejeleaji 1</label>
+                        <input type="text" id="referee1Name" name="referee1Name" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="referee1Contact" aria-label="Mawasiliano ya Mrejeleaji 1">Mawasiliano ya Mrejeleaji 1 (Simu/Barua Pepe)</label>
+                        <input type="text" id="referee1Contact" name="referee1Contact" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="referee2Name" aria-label="Jina la Mrejeleaji 2">Jina la Mrejeleaji 2</label>
+                        <input type="text" id="referee2Name" name="referee2Name" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="referee2Contact" aria-label="Mawasiliano ya Mrejeleaji 2">Mawasiliano ya Mrejeleaji 2 (Simu/Barua Pepe)</label>
+                        <input type="text" id="referee2Contact" name="referee2Contact" required aria-required="true">
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" onclick="prevStep(5)">Rudi</button>
+                        <button type="button" onclick="nextStep(5)">Endelea</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Contact and Identification -->
+                <div class="form-step" id="step6">
                     <div class="form-group">
                         <label for="phone" aria-label="Namba ya Simu">Namba ya Simu</label>
                         <input type="tel" id="phone" name="phone" required aria-required="true">
@@ -508,7 +539,22 @@
                         <input type="text" id="nida" name="nida" required aria-required="true">
                     </div>
                     <div class="nav-buttons">
-                        <button type="button" onclick="prevStep(5)">Rudi</button>
+                        <button type="button" onclick="prevStep(6)">Rudi</button>
+                        <button type="button" onclick="nextStep(6)">Endelea</button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Declaration -->
+                <div class="form-step" id="step7">
+                    <div class="form-group">
+                        <label for="declaration" aria-label="Tamko">Tamko</label>
+                        <p style="margin-bottom: 20px;">
+                            Mimi, <span id="declarationName"></span>, nakiri kuwa taarifa zote nilizowasilisha katika maombi ya Mbio za Mwenge wa Uhuru ni sahihi na za kweli kwa mujibu wa uelewa wangu. Endapo itabainika kuwa taarifa hizo si sahihi au zimewasilishwa kwa njia ya udanganyifu, nipo tayari kuwajibika na kuchukuliwa hatua kali za kisheria kwa mujibu wa sheria na taratibu za nchi.
+                        </p>
+                        <label><input type="checkbox" id="declaration" name="declaration" required aria-required="true"> Nakubali Tamko Hili</label>
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" onclick="prevStep(7)">Rudi</button>
                         <button type="submit">Tuma Usajili</button>
                     </div>
                 </div>
@@ -553,6 +599,11 @@
                 successMessage.classList.remove('active');
                 errorMessage.classList.remove('active');
             }
+
+            // Update declaration name dynamically
+            document.getElementById('applicantName').addEventListener('input', function() {
+                document.getElementById('declarationName').textContent = this.value || '[Jina Kamili]';
+            });
         }
 
         let currentStep = 1;
@@ -680,6 +731,7 @@
                 const formData = {
                     serialNumber: serialNumberCounter++,
                     applicantName: document.getElementById('applicantName').value,
+                    gender: document.querySelector('input[name="gender"]:checked').value,
                     dob: document.getElementById('dob').value,
                     placeOfBirth: document.getElementById('placeOfBirth').value,
                     age: document.getElementById('age').value,
@@ -699,11 +751,16 @@
                     applicantDescription: document.getElementById('applicantDescription').value,
                     training: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(input => input.value),
                     otherTraining: document.getElementById('otherTraining').value,
+                    referee1Name: document.getElementById('referee1Name').value,
+                    referee1Contact: document.getElementById('referee1Contact').value,
+                    referee2Name: document.getElementById('referee2Name').value,
+                    referee2Contact: document.getElementById('referee2Contact').value,
                     phone: document.getElementById('phone').value,
                     email: document.getElementById('email').value,
                     postalBox: document.getElementById('postalBox').value,
                     birthCert: document.getElementById('birthCert').value,
-                    nida: document.getElementById('nida').value
+                    nida: document.getElementById('nida').value,
+                    declaration: document.getElementById('declaration').checked
                 };
 
                 let applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
