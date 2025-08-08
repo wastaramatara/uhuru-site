@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1E3A8A; /* Deep blue */
-            --secondary: #F97316; /* Vibrant orange */
-            --background: #F9FAFB; /* Light gray */
+            --primary: #1E3A8A;
+            --secondary: #F97316;
+            --background: #F9FAFB;
             --tz-green: #00A859;
             --tz-yellow: #FFD700;
             --tz-black: #1A252F;
@@ -138,6 +138,23 @@
             color: var(--primary);
         }
 
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--primary);
+            background: #ffffff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+        }
+
         .hidden {
             display: none;
         }
@@ -154,7 +171,7 @@
         }
 
         @media print {
-            .header, .footer, button, .auth-message {
+            .header, .footer, button, .auth-message, .login-form {
                 display: none;
             }
 
@@ -219,29 +236,45 @@
             </div>
         </div>
         <div class="admin-container">
-            <div class="auth-message" id="authMessage">
-                Ingia kama Katibu wa Ofisi kwa Ruhusa ya Upatikanaji
+            <div class="auth-message hidden" id="authMessage">
+                Jina la Mtumiaji au Nenosiri si Sahihi
             </div>
-            <div class="application-list" id="applicationList">
+            <div class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Jina la Mtumiaji</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Nenosiri</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="button" onclick="authenticate()">Ingia</button>
+            </div>
+            <div class="application-list hidden" id="applicationList">
                 <!-- Applications will be populated here -->
             </div>
         </div>
     </div>
 
     <script>
-        // Simulated authentication (in production, use proper server-side auth)
-        const isAuthenticated = true; // Set to true for demo; in production, check credentials
-
-        function checkAuthentication() {
+        function authenticate() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             const authMessage = document.getElementById('authMessage');
+            const loginForm = document.getElementById('loginForm');
             const applicationList = document.getElementById('applicationList');
+
+            // Simulated authentication (replace with server-side auth in production)
+            const isAuthenticated = username === 'admin' && password === 'admin123';
+
             if (isAuthenticated) {
                 authMessage.classList.add('hidden');
+                loginForm.classList.add('hidden');
                 applicationList.classList.remove('hidden');
                 populateApplications();
             } else {
-                authMessage.classList.add('hidden');
-                applicationList.classList.add('hidden');
+                authMessage.classList.remove('hidden');
+                setTimeout(() => authMessage.classList.add('hidden'), 3000);
             }
         }
 
@@ -270,12 +303,20 @@
                         <p>${app.dob}</p>
                     </div>
                     <div class="form-group">
+                        <label>Mahali pa Kuzaliwa</label>
+                        <p>${app.placeOfBirth}</p>
+                    </div>
+                    <div class="form-group">
                         <label>Umri</label>
                         <p>${app.age}</p>
                     </div>
                     <div class="form-group">
-                        <label>Anwani ya Makazi</label>
-                        <p>${app.anwaniMakazi}</p>
+                        <label>Uraia</label>
+                        <p>${app.nationality}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Hali ya Ndoa</label>
+                        <p>${app.maritalStatus}</p>
                     </div>
                     <div class="form-group">
                         <label>Mkoa Unaoishi</label>
@@ -321,12 +362,24 @@
                     </div>
                     `}
                     <div class="form-group">
+                        <label>Maelezo Mafupi ya Mwombaji</label>
+                        <p>${app.applicantDescription}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Mafunzo Ulivyohuduria</label>
+                        <p>${app.training.length ? app.training.join(', ') + (app.otherTraining ? `: ${app.otherTraining}` : '') : 'Hakuna'}</p>
+                    </div>
+                    <div class="form-group">
                         <label>Namba ya Simu</label>
                         <p>${app.phone}</p>
                     </div>
                     <div class="form-group">
                         <label>Barua Pepe</label>
                         <p>${app.email || 'Hakuna'}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Sanduku la Posta</label>
+                        <p>${app.postalBox}</p>
                     </div>
                     <div class="form-group">
                         <label>Namba ya Cheti cha Kuzaliwa</label>
@@ -350,7 +403,7 @@
         }
 
         // Initialize admin interface
-        checkAuthentication();
+        document.getElementById('applicationList').classList.add('hidden');
     </script>
 </body>
 </html>
