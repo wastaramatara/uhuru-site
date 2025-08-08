@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1E3A8A; /* Deep blue */
-            --secondary: #F97316; /* Vibrant orange */
-            --background: #F9FAFB; /* Light gray */
+            --primary: #1E3A8A;
+            --secondary: #F97316;
+            --background: #F9FAFB;
             --tz-green: #00A859;
             --tz-yellow: #FFD700;
             --tz-black: #1A252F;
@@ -167,6 +167,21 @@
             color: var(--primary);
         }
 
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
         button {
             display: block;
             width: 100%;
@@ -314,7 +329,7 @@
                 <!-- Step 1: Applicant Details -->
                 <div class="form-step" id="step1">
                     <div class="form-group">
-                        <label for="applicantName" aria-label="Jina la Mwombaji">Jina la Mwombaji</label>
+                        <label for="applicantName" aria-label="Jina Kamili la Mwombaji">Jina Kamili la Mwombaji</label>
                         <input type="text" id="applicantName" name="applicantName" required aria-required="true">
                     </div>
                     <div class="form-group">
@@ -322,12 +337,26 @@
                         <input type="date" id="dob" name="dob" required aria-required="true" onchange="calculateAge()">
                     </div>
                     <div class="form-group">
+                        <label for="placeOfBirth" aria-label="Mahali alipozaliwa">Mahali alipozaliwa</label>
+                        <input type="text" id="placeOfBirth" name="placeOfBirth" required aria-required="true">
+                    </div>
+                    <div class="form-group">
                         <label for="age" aria-label="Umri">Umri</label>
                         <input type="number" id="age" name="age" readonly aria-readonly="true">
                     </div>
                     <div class="form-group">
-                        <label for="anwaniMakazi" aria-label="Anwani ya Makazi">Anwani ya Makazi</label>
-                        <textarea id="anwaniMakazi" name="anwaniMakazi" required aria-required="true"></textarea>
+                        <label for="nationality" aria-label="Uraia">Uraia</label>
+                        <input type="text" id="nationality" name="nationality" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="maritalStatus" aria-label="Hali ya Ndoa">Hali ya Ndoa</label>
+                        <select id="maritalStatus" name="maritalStatus" required aria-required="true">
+                            <option value="">Chagua</option>
+                            <option value="single">Hajaoa/Hajaolewa</option>
+                            <option value="married">Ameoa/Ameolewa</option>
+                            <option value="divorced">Ametalikiwa</option>
+                            <option value="widowed">Mjane/Mjwa</option>
+                        </select>
                     </div>
                     <div class="nav-buttons">
                         <button type="button" onclick="nextStep(1)">Endelea</button>
@@ -361,11 +390,11 @@
                 <!-- Step 3: Endorsements -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
-                        <label for="maoniMkoa" aria-label="Maoni ya Mwenyekiti Kamati ya Usalama Mkoa">Maoni ya Mwenyekiti Kamati ya Usalama Mkoa</label>
+                        <label for="maoniMkoa" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa</label>
                         <textarea id="maoniMkoa" name="maoniMkoa" required aria-required="true"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="maoniWilaya" aria-label="Maoni ya Mwenyekiti Kamati ya Usalama Wilaya">Maoni ya Mwenyekiti Kamati ya Usalama Wilaya</label>
+                        <label for="maoniWilaya" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya</label>
                         <textarea id="maoniWilaya" name="maoniWilaya" required aria-required="true"></textarea>
                     </div>
                     <div class="nav-buttons">
@@ -408,12 +437,22 @@
                         <textarea id="shughuli" name="shughuli" aria-required="false"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="phone" aria-label="Namba ya Simu">Namba ya Simu</label>
-                        <input type="tel" id="phone" name="phone" required aria-required="true">
+                        <label for="applicantDescription" aria-label="Maelezo Mafupi ya Mwombaji">Maelezo Mafupi ya Mwombaji</label>
+                        <textarea id="applicantDescription" name="applicantDescription" required aria-required="true"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="email" aria-label="Barua Pepe">Barua Pepe (Si Lazima)</label>
-                        <input type="email" id="email" name="email" aria-required="false">
+                        <label>Mafunzo Ulivyohuduria</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="training" value="jkt"> JKT</label>
+                            <label><input type="checkbox" name="training" value="mgambo"> Mgambo</label>
+                            <label><input type="checkbox" name="training" value="uongozi"> Uongozi</label>
+                            <label><input type="checkbox" name="training" value="ujasiriamali"> Ujasiriamali</label>
+                            <label><input type="checkbox" name="training" value="other" onchange="toggleOtherTraining()"> Nyingine</label>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="otherTrainingGroup">
+                        <label for="otherTraining" aria-label="Mafunzo Mengine">Mafunzo Mengine</label>
+                        <textarea id="otherTraining" name="otherTraining" aria-required="false"></textarea>
                     </div>
                     <div class="nav-buttons">
                         <button type="button" onclick="prevStep(4)">Rudi</button>
@@ -421,8 +460,20 @@
                     </div>
                 </div>
 
-                <!-- Step 5: Identification -->
+                <!-- Step 5: Contact and Identification -->
                 <div class="form-step" id="step5">
+                    <div class="form-group">
+                        <label for="phone" aria-label="Namba ya Simu">Namba ya Simu</label>
+                        <input type="tel" id="phone" name="phone" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" aria-label="Barua Pepe">Barua Pepe (Si Lazima)</label>
+                        <input type="email" id="email" name="email" aria-required="false">
+                    </div>
+                    <div class="form-group">
+                        <label for="postalBox" aria-label="Sanduku la Posta">Sanduku la Posta</label>
+                        <input type="text" id="postalBox" name="postalBox" required aria-required="true">
+                    </div>
                     <div class="form-group">
                         <label for="birthCert" aria-label="Namba ya Cheti cha Kuzaliwa">Namba ya Cheti cha Kuzaliwa</label>
                         <input type="text" id="birthCert" name="birthCert" required aria-required="true">
@@ -447,18 +498,15 @@
     </div>
 
     <script>
-        // Simulated serial number counter (in production, this should be server-side)
         let serialNumberCounter = 1;
 
-        // Check application window
         function isApplicationWindowOpen() {
             const now = new Date();
-            const start = new Date(2025, 6, 26); // July 26, 2025
-            const end = new Date(2025, 11, 31, 23, 59, 59); // 31 Dec 2025
+            const start = new Date(2025, 6, 26);
+            const end = new Date(2025, 11, 31, 23, 59, 59);
             return now >= start && now <= end;
         }
 
-        // Initialize form visibility
         function initializeForm() {
             const form = document.getElementById('registrationForm');
             const closedMessage = document.getElementById('closedMessage');
@@ -509,6 +557,23 @@
                 otherEducationInput.removeAttribute('required');
                 otherEducationInput.setAttribute('aria-required', 'false');
                 otherEducationInput.value = '';
+            }
+        }
+
+        function toggleOtherTraining() {
+            const otherCheckbox = document.querySelector('input[name="training"][value="other"]');
+            const otherTrainingGroup = document.getElementById('otherTrainingGroup');
+            const otherTrainingInput = document.getElementById('otherTraining');
+            
+            if (otherCheckbox.checked) {
+                otherTrainingGroup.classList.remove('hidden');
+                otherTrainingInput.setAttribute('required', 'true');
+                otherTrainingInput.setAttribute('aria-required', 'true');
+            } else {
+                otherTrainingGroup.classList.add('hidden');
+                otherTrainingInput.removeAttribute('required');
+                otherTrainingInput.setAttribute('aria-required', 'false');
+                otherTrainingInput.value = '';
             }
         }
 
@@ -580,7 +645,10 @@
                     serialNumber: serialNumberCounter++,
                     applicantName: document.getElementById('applicantName').value,
                     dob: document.getElementById('dob').value,
+                    placeOfBirth: document.getElementById('placeOfBirth').value,
                     age: document.getElementById('age').value,
+                    nationality: document.getElementById('nationality').value,
+                    maritalStatus: document.getElementById('maritalStatus').value,
                     anwaniMakazi: document.getElementById('anwaniMakazi').value,
                     mkoaUnaoishi: document.getElementById('mkoaUnaoishi').value,
                     mkoaOmbea: document.getElementById('mkoaOmbea').value,
@@ -593,13 +661,16 @@
                     employmentStatus: document.querySelector('input[name="employmentStatus"]:checked').value,
                     mwajiri: document.getElementById('mwajiri').value,
                     shughuli: document.getElementById('shughuli').value,
+                    applicantDescription: document.getElementById('applicantDescription').value,
+                    training: Array.from(document.querySelectorAll('input[name="training"]:checked')).map(input => input.value),
+                    otherTraining: document.getElementById('otherTraining').value,
                     phone: document.getElementById('phone').value,
                     email: document.getElementById('email').value,
+                    postalBox: document.getElementById('postalBox').value,
                     birthCert: document.getElementById('birthCert').value,
                     nida: document.getElementById('nida').value
                 };
 
-                // Save to localStorage (simulating server storage)
                 let applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
                 applications.push(formData);
                 localStorage.setItem('uhuruTorchApplications', JSON.stringify(applications));
@@ -609,7 +680,6 @@
             }
         });
 
-        // Initialize form on load
         initializeForm();
     </script>
 </body>
