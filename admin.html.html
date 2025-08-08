@@ -253,6 +253,8 @@
             <div class="application-list hidden" id="applicationList">
                 <!-- Applications will be populated here -->
             </div>
+            <button class="hidden" id="refreshButton" onclick="populateApplications()">Refresh Applications</button>
+            <button class="hidden" id="clearButton" onclick="clearApplications()">Clear Applications</button>
         </div>
     </div>
 
@@ -263,16 +265,22 @@
             const authMessage = document.getElementById('authMessage');
             const loginForm = document.getElementById('loginForm');
             const applicationList = document.getElementById('applicationList');
+            const refreshButton = document.getElementById('refreshButton');
+            const clearButton = document.getElementById('clearButton');
 
-            // Simulated authentication (replace with server-side auth in production)
+            console.log('Auth attempt - Username:', username, 'Password:', password); // Debug
             const isAuthenticated = username === 'admin' && password === 'admin123';
 
             if (isAuthenticated) {
+                console.log('Authentication successful'); // Debug
                 authMessage.classList.add('hidden');
                 loginForm.classList.add('hidden');
                 applicationList.classList.remove('hidden');
+                refreshButton.classList.remove('hidden');
+                clearButton.classList.remove('hidden');
                 populateApplications();
             } else {
+                console.log('Authentication failed'); // Debug
                 authMessage.classList.remove('hidden');
                 setTimeout(() => authMessage.classList.add('hidden'), 3000);
             }
@@ -281,12 +289,25 @@
         function populateApplications() {
             const applicationList = document.getElementById('applicationList');
             applicationList.innerHTML = '';
-            const applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
+            let applications = [];
+            try {
+                applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
+                console.log('Retrieved applications:', applications); // Debug
+            } catch (e) {
+                console.error('Error parsing localStorage data:', e); // Debug
+                applications = [];
+            }
+
             if (applications.length === 0) {
                 applicationList.innerHTML = '<p>Hakuna Maombi Yaliyowasilishwa</p>';
                 return;
             }
+
             applications.forEach(app => {
+                if (!app.serialNumber) {
+                    console.warn('Invalid application data:', app); // Debug
+                    return;
+                }
                 const appDiv = document.createElement('div');
                 appDiv.className = 'application-item';
                 appDiv.innerHTML = `
@@ -296,55 +317,55 @@
                     </div>
                     <div class="form-group">
                         <label>Jina la Mwombaji</label>
-                        <p>${app.applicantName}</p>
+                        <p>${app.applicantName || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Jinsia</label>
-                        <p>${app.gender === 'male' ? 'Me' : 'Ke'}</p>
+                        <p>${app.gender === 'male' ? 'Me' : app.gender === 'female' ? 'Ke' : 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Tarehe ya Kuzaliwa</label>
-                        <p>${app.dob}</p>
+                        <p>${app.dob || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mahali pa Kuzaliwa</label>
-                        <p>${app.placeOfBirth}</p>
+                        <p>${app.placeOfBirth || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Umri</label>
-                        <p>${app.age}</p>
+                        <p>${app.age || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Uraia</label>
-                        <p>${app.nationality}</p>
+                        <p>${app.nationality || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Hali ya Ndoa</label>
-                        <p>${app.maritalStatus}</p>
+                        <p>${app.maritalStatus || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mkoa Unaoishi</label>
-                        <p>${app.mkoaUnaoishi}</p>
+                        <p>${app.mkoaUnaoishi || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mkoa Anapo Ombea</label>
-                        <p>${app.mkoaOmbea}</p>
+                        <p>${app.mkoaOmbea || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Wilaya</label>
-                        <p>${app.wilaya}</p>
+                        <p>${app.wilaya || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Anwani</label>
-                        <p>${app.anwani}</p>
+                        <p>${app.anwani || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Maoni ya Mwenyekiti Kamati ya Usalama Mkoa</label>
-                        <p>${app.maoniMkoa}</p>
+                        <p>${app.maoniMkoa || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Maoni ya Mwenyekiti Kamati ya Usalama Wilaya</label>
-                        <p>${app.maoniWilaya}</p>
+                        <p>${app.maoniWilaya || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Kiwango cha Elimu</label>
@@ -352,46 +373,46 @@
                     </div>
                     <div class="form-group">
                         <label>Hali ya Ajira</label>
-                        <p>${app.employmentStatus === 'employed' ? 'Nimeajiriwa' : 'Nimejiajiri'}</p>
+                        <p>${app.employmentStatus === 'employed' ? 'Nimeajiriwa' : app.employmentStatus === 'selfEmployed' ? 'Nimejiajiri' : 'N/A'}</p>
                     </div>
                     ${app.employmentStatus === 'employed' ? `
                     <div class="form-group">
                         <label>Mwajiri</label>
                         <p>${app.mwajiri || 'Hakuna'}</p>
                     </div>
-                    ` : `
+                    ` : app.employmentStatus === 'selfEmployed' ? `
                     <div class="form-group">
                         <label>Shughuli Zako</label>
                         <p>${app.shughuli || 'Hakuna'}</p>
                     </div>
-                    `}
+                    ` : ''}
                     <div class="form-group">
                         <label>Maelezo Mafupi ya Mwombaji</label>
-                        <p>${app.applicantDescription}</p>
+                        <p>${app.applicantDescription || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mafunzo Ulivyohuduria</label>
-                        <p>${app.training.length ? app.training.join(', ') + (app.otherTraining ? `: ${app.otherTraining}` : '') : 'Hakuna'}</p>
+                        <p>${app.training && app.training.length ? app.training.join(', ') + (app.otherTraining ? `: ${app.otherTraining}` : '') : 'Hakuna'}</p>
                     </div>
                     <div class="form-group">
                         <label>Jina la Mrejeleaji 1</label>
-                        <p>${app.referee1Name}</p>
+                        <p>${app.referee1Name || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mawasiliano ya Mrejeleaji 1</label>
-                        <p>${app.referee1Contact}</p>
+                        <p>${app.referee1Contact || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Jina la Mrejeleaji 2</label>
-                        <p>${app.referee2Name}</p>
+                        <p>${app.referee2Name || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Mawasiliano ya Mrejeleaji 2</label>
-                        <p>${app.referee2Contact}</p>
+                        <p>${app.referee2Contact || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Namba ya Simu</label>
-                        <p>${app.phone}</p>
+                        <p>${app.phone || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Barua Pepe</label>
@@ -399,15 +420,15 @@
                     </div>
                     <div class="form-group">
                         <label>Sanduku la Posta</label>
-                        <p>${app.postalBox}</p>
+                        <p>${app.postalBox || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Namba ya Cheti cha Kuzaliwa</label>
-                        <p>${app.birthCert}</p>
+                        <p>${app.birthCert || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Namba ya NIDA</label>
-                        <p>${app.nida}</p>
+                        <p>${app.nida || 'N/A'}</p>
                     </div>
                     <div class="form-group">
                         <label>Tamko</label>
@@ -426,9 +447,23 @@
             serialNumberGroup.classList.add('hidden');
         }
 
+        function clearApplications() {
+            localStorage.removeItem('uhuruTorchApplications');
+            console.log('Applications cleared from localStorage'); // Debug
+            populateApplications();
+        }
+
         // Initialize admin interface
         document.getElementById('applicationList').classList.add('hidden');
+        document.getElementById('refreshButton').classList.add('hidden');
+        document.getElementById('clearButton').classList.add('hidden');
+
+        // Auto-refresh applications every 5 seconds after login
+        window.addEventListener('focus', () => {
+            if (!document.getElementById('loginForm').classList.contains('hidden')) return;
+            console.log('Window focused, refreshing applications'); // Debug
+            populateApplications();
+        });
     </script>
 </body>
 </html>
-
