@@ -254,7 +254,6 @@
                 <!-- Applications will be populated here -->
             </div>
             <button class="hidden" id="refreshButton" onclick="populateApplications()">Refresh Applications</button>
-            <button class="hidden" id="clearButton" onclick="clearApplications()">Clear Applications</button>
         </div>
     </div>
 
@@ -266,21 +265,19 @@
             const loginForm = document.getElementById('loginForm');
             const applicationList = document.getElementById('applicationList');
             const refreshButton = document.getElementById('refreshButton');
-            const clearButton = document.getElementById('clearButton');
 
-            console.log('Auth attempt - Username:', username, 'Password:', password); // Debug
+            console.log('Auth attempt - Username:', username, 'Password:', password);
             const isAuthenticated = username === 'admin' && password === 'admin123';
 
             if (isAuthenticated) {
-                console.log('Authentication successful'); // Debug
+                console.log('Authentication successful');
                 authMessage.classList.add('hidden');
                 loginForm.classList.add('hidden');
                 applicationList.classList.remove('hidden');
                 refreshButton.classList.remove('hidden');
-                clearButton.classList.remove('hidden');
                 populateApplications();
             } else {
-                console.log('Authentication failed'); // Debug
+                console.log('Authentication failed');
                 authMessage.classList.remove('hidden');
                 setTimeout(() => authMessage.classList.add('hidden'), 3000);
             }
@@ -292,9 +289,9 @@
             let applications = [];
             try {
                 applications = JSON.parse(localStorage.getItem('uhuruTorchApplications') || '[]');
-                console.log('Retrieved applications:', applications); // Debug
+                console.log('Retrieved applications:', applications);
             } catch (e) {
-                console.error('Error parsing localStorage data:', e); // Debug
+                console.error('Error parsing localStorage data:', e);
                 applications = [];
             }
 
@@ -305,7 +302,7 @@
 
             applications.forEach(app => {
                 if (!app.serialNumber) {
-                    console.warn('Invalid application data:', app); // Debug
+                    console.warn('Invalid application data:', app);
                     return;
                 }
                 const appDiv = document.createElement('div');
@@ -447,21 +444,14 @@
             serialNumberGroup.classList.add('hidden');
         }
 
-        function clearApplications() {
-            localStorage.removeItem('uhuruTorchApplications');
-            console.log('Applications cleared from localStorage'); // Debug
-            populateApplications();
-        }
-
         // Initialize admin interface
         document.getElementById('applicationList').classList.add('hidden');
         document.getElementById('refreshButton').classList.add('hidden');
-        document.getElementById('clearButton').classList.add('hidden');
 
         // Auto-refresh applications every 5 seconds after login
         window.addEventListener('focus', () => {
             if (!document.getElementById('loginForm').classList.contains('hidden')) return;
-            console.log('Window focused, refreshing applications'); // Debug
+            console.log('Window focused, refreshing applications');
             populateApplications();
         });
     </script>
