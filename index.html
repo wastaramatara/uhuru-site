@@ -221,7 +221,6 @@
         }
 
         .success-message,
-        .closed-message,
         .error-message {
             display: none;
             text-align: center;
@@ -240,7 +239,6 @@
         }
 
         .success-message.active,
-        .closed-message.active,
         .error-message.active {
             display: block;
         }
@@ -330,7 +328,6 @@
             }
 
             .success-message,
-            .closed-message,
             .error-message {
                 width: 90%;
                 font-size: 1rem;
@@ -347,12 +344,9 @@
             </div>
         </div>
         <div class="form-container">
-            <div class="closed-message" id="closedMessage">
-                Dirisha la Maombi Limefungwa.
-            </div>
             <form id="registrationForm" action="/mwenge-registration" method="post">
                 <!-- Step 1: Applicant Details -->
-                <div class="form-step" id="step1">
+                <div class="form-step active" id="step1">
                     <div class="form-group">
                         <label for="applicantName" aria-label="Jina Kamili la Mwombaji">Jina Kamili la Mwombaji</label>
                         <input type="text" id="applicantName" name="applicantName" required aria-required="true">
@@ -361,7 +355,7 @@
                         <label>Jinsia</label>
                         <div class="radio-group">
                             <label><input type="radio" name="gender" value="male" required aria-required="true"> Me</label>
-                            <label><input type="radio" name="gender" value="female" required aria-required="true"> ke</label>
+                            <label><input type="radio" name="gender" value="female" required aria-required="true"> Ke</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -419,15 +413,15 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Endorsements -->
+                <!-- Step 3: Endorsements (For Office Use Only) -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
-                        <label for="maoniMkoa" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa</label>
-                        <textarea id="maoniMkoa" name="maoniMkoa" required aria-required="true"></textarea>
+                        <label for="maoniMkoa" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Mkoa (Kwa Matumizi ya Ofisi Tu)</label>
+                        <textarea id="maoniMkoa" name="maoniMkoa" readonly aria-readonly="true" placeholder="Kwa Matumizi ya Ofisi Tu"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="maoniWilaya" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya</label>
-                        <textarea id="maoniWilaya" name="maoniWilaya" required aria-required="true"></textarea>
+                        <label for="maoniWilaya" aria-label="Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya">Maoni ya Mwenyekiti wa Kamati ya Ulinzi na Usalama Wilaya (Kwa Matumizi ya Ofisi Tu)</label>
+                        <textarea id="maoniWilaya" name="maoniWilaya" readonly aria-readonly="true" placeholder="Kwa Matumizi ya Ofisi Tu"></textarea>
                     </div>
                     <div class="nav-buttons">
                         <button type="button" onclick="prevStep(3)">Rudi</button>
@@ -574,31 +568,15 @@
     <script>
         let serialNumberCounter = 1;
 
-        function isApplicationWindowOpen() {
-            const now = new Date();
-            const start = new Date(2025, 6, 26);
-            const end = new Date(2025, 11, 31, 23, 59, 59);
-            return now >= start && now <= end;
-        }
-
         function initializeForm() {
             const form = document.getElementById('registrationForm');
-            const closedMessage = document.getElementById('closedMessage');
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
             
-            if (isApplicationWindowOpen()) {
-                form.style.display = 'block';
-                closedMessage.classList.remove('active');
-                successMessage.classList.remove('active');
-                errorMessage.classList.remove('active');
-                document.getElementById('step1').classList.add('active');
-            } else {
-                form.style.display = 'none';
-                closedMessage.classList.add('active');
-                successMessage.classList.remove('active');
-                errorMessage.classList.remove('active');
-            }
+            form.style.display = 'block';
+            successMessage.classList.remove('active');
+            errorMessage.classList.remove('active');
+            document.getElementById('step1').classList.add('active');
 
             // Update declaration name dynamically
             document.getElementById('applicantName').addEventListener('input', function() {
@@ -703,7 +681,7 @@
         }
 
         function nextStep(step) {
-            if (validateStep(step)) {
+            if (step === 3 || validateStep(step)) {
                 document.getElementById(`step${step}`).classList.remove('active');
                 currentStep = step + 1;
                 document.getElementById(`step${currentStep}`).classList.add('active');
@@ -723,10 +701,6 @@
 
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            if (!isApplicationWindowOpen()) {
-                initializeForm();
-                return;
-            }
             if (validateStep(currentStep)) {
                 const formData = {
                     serialNumber: serialNumberCounter++,
@@ -767,7 +741,6 @@
                 applications.push(formData);
                 localStorage.setItem('uhuruTorchApplications', JSON.stringify(applications));
 
-                // Hide the form, reset it, and show success message
                 document.getElementById('registrationForm').style.display = 'none';
                 document.getElementById('registrationForm').reset();
                 document.getElementById('successMessage').classList.add('active');
@@ -783,4 +756,3 @@
     </script>
 </body>
 </html>
-
