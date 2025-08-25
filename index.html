@@ -513,16 +513,12 @@
                 <!-- Step 6: Contact and Identification -->
                 <div class="form-step" id="step6">
                     <div class="form-group">
-                        <label for="phone" aria-label="Namba ya Simu">Namba ya Simu</label>
-                        <input type="tel" id="phone" name="phone" required aria-required="true">
+                        <label for="phone" aria-label="Namba ya Simu">Namba ya Simu (+255)</label>
+                        <input type="tel" id="phone" name="phone" required aria-required="true" pattern="\+255[0-9]{9}" title="Namba ya simu lazima ianze na +255 na iwe na tarakimu 9 zaidi">
                     </div>
                     <div class="form-group">
                         <label for="email" aria-label="Barua Pepe">Barua Pepe (Si Lazima)</label>
                         <input type="email" id="email" name="email" aria-required="false">
-                    </div>
-                    <div class="form-group">
-                        <label for="postalBox" aria-label="Sanduku la Posta">Sanduku la Posta</label>
-                        <input type="text" id="postalBox" name="postalBox" required aria-required="true">
                     </div>
                     <div class="form-group">
                         <label for="birthCert" aria-label="Namba ya Cheti cha Kuzaliwa">Namba ya Cheti cha Kuzaliwa</label>
@@ -557,7 +553,7 @@
                 Maombi yako yamepokelewa, tunayofuraha kutaka kufanya kazi nasi
             </div>
             <div class="error-message" id="errorMessage">
-                Tafadhali jaza sehemu zote zinazohitajika.
+                Tafadhali jaza sehemu zote zinazohitajika au hakikisha namba ya simu ni sahihi (+255 na tarakimu 9).
             </div>
         </div>
         <div class="footer" role="presentation" aria-hidden="true">
@@ -677,6 +673,16 @@
                 }
             });
 
+            // Additional phone number validation for step 6
+            if (step === 6) {
+                const phoneInput = document.getElementById('phone');
+                const phonePattern = /^\+255[0-9]{9}$/;
+                if (!phonePattern.test(phoneInput.value)) {
+                    valid = false;
+                    phoneInput.style.borderColor = '#ff4d4d';
+                }
+            }
+
             return valid;
         }
 
@@ -731,7 +737,6 @@
                     referee2Contact: document.getElementById('referee2Contact').value,
                     phone: document.getElementById('phone').value,
                     email: document.getElementById('email').value,
-                    postalBox: document.getElementById('postalBox').value,
                     birthCert: document.getElementById('birthCert').value,
                     nida: document.getElementById('nida').value,
                     declaration: document.getElementById('declaration').checked
